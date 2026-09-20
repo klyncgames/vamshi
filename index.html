@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7a1420">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Shravani & Vamshi">
+<title>Shravani &amp; Vamshi — Wedding Invitation</title>
+<style>
+@font-face{
+  font-family:'ScriptSerif';
+  src:url("assets/script-serif.ttf") format("truetype");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --gold:#e8c37a; --cream:#fdf6ee; --ink:#2a1620; --muted:#7a5560;
+  --maroon:#7a1420; --maroon-deep:#4c0d16; --maroon-text:#7a1e2b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden;min-height:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:none}
+body.locked{overflow:hidden;height:100vh;height:100dvh;min-height:100svh}
+@supports (-webkit-touch-callout:none){
+  html,body{width:100%;min-height:100%;-webkit-tap-highlight-color:transparent}
+  #intro{min-height:100svh;height:100dvh}
+  .enter,.directions{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  .scratch-canvas{touch-action:none;-webkit-user-select:none;user-select:none}
+}
+@media (max-width:699px){
+  .intro-card{width:min(92vw,430px);padding:34px 20px}
+  .intro-card h1{font-size:34px}
+  .intro-card p{font-size:14px;line-height:1.55}
+  .section{padding-left:12px;padding-right:12px}
+  .card{width:min(96vw,440px)}
+  .savedate-wrap{width:min(94vw,440px)}
+  .venue-card{width:min(96vw,560px);padding:26px 16px}
+  .venue-map{height:220px}
+  .finale{padding:76px 18px 82px}
+  .finale .fname{font-size:clamp(30px,9vw,44px)}
+  .finale .fdate{font-size:14px}
+}
+img{max-width:100%}
+
+/* ---------- Intro gate ---------- */
+#intro{position:fixed;z-index:50;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;
+  background:radial-gradient(circle at 50% 35%,rgba(255,221,156,.2),transparent 30%),linear-gradient(135deg,#160d20,#351526 55%,#100913);
+  transition:opacity .8s,visibility .8s}
+.intro-card{width:min(88vw,430px);padding:44px 25px;border:1px solid rgba(232,195,122,.65);background:rgba(20,10,22,.62);box-shadow:0 25px 80px rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+.monogram{width:82px;height:82px;border-radius:50%;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;white-space:nowrap;background:#fffaf0;color:#bd8736;font-size:32px;font-family:'ScriptSerif',Georgia,serif;border:1px solid #e8c37a}
+.intro-card .eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#e8c37a}
+.intro-card h1{font-size:38px;font-weight:400;margin:15px 0 8px;line-height:1.05;color:#fff4df}
+.intro-card p{font-style:italic;color:#ead8bd;margin:10px 0 28px;font-size:16px}
+.enter{appearance:none;border:1px solid #e8c37a;background:transparent;color:#fff4df;padding:13px 28px;letter-spacing:3px;text-transform:uppercase;font-size:11px;cursor:pointer;font-family:inherit}
+.enter:hover{background:rgba(232,195,122,.12)}
+.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ---------- Page flow / decoration ---------- */
+#flow{position:relative;overflow:hidden}
+#decor{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+#decor .d{position:absolute;animation:sway 6s ease-in-out infinite alternate;opacity:.9}
+#decor .petal{width:13px;height:19px;border-radius:70% 30% 70% 30%;background:linear-gradient(160deg,#d3495e,#9c1f2e)}
+#decor .emoji{font-size:20px;line-height:1}
+@keyframes sway{from{transform:translateY(-6px) rotate(-4deg)}to{transform:translateY(6px) rotate(4deg)}}
+#petals{position:fixed;z-index:2;inset:0;pointer-events:none;overflow:hidden}
+.fall-petal{position:absolute;top:-30px;width:9px;height:14px;border-radius:70% 30% 70% 30%;background:#b92738;opacity:.65;animation:fall linear infinite}
+@keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(520deg)}}
+
+/* ---------- Section / card system ---------- */
+.section{position:relative;z-index:3;padding:0 16px;margin:56px auto;max-width:920px}
+.section:first-of-type{margin-top:44px}
+.section:last-of-type{margin-bottom:64px}
+.card{width:min(94vw,440px);margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 18px 46px rgba(76,13,22,.20),0 2px 10px rgba(76,13,22,.10);background:#fff;display:block}
+.card img{width:100%;height:auto;display:block}
+.heading-block{text-align:center;padding:0 12px}
+.heading-block .kicker{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--maroon-text)}
+.heading-block h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(26px,7vw,36px);color:var(--maroon);margin:10px 0 6px}
+.heading-block .sub{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+@media (min-width:700px){
+  .section{padding:0 24px;margin:88px auto}
+  .card{width:min(46vw,460px)}
+}
+
+/* ---------- Save the date / scratch card ---------- */
+.savedate-wrap{width:min(92vw,440px);margin:26px auto 0}
+.scratch-box{position:relative;border-radius:20px;overflow:hidden;background:#fff8e8;box-shadow:0 16px 40px rgba(76,13,22,.26);border:1px solid rgba(232,195,122,.75);
+  min-height:132px;display:flex;align-items:center;justify-content:center;padding:22px 16px}
+.scratch-content{position:relative;z-index:1;width:100%;opacity:0;visibility:hidden;transform:scale(.97);
+  transition:opacity .65s ease .2s,transform .75s cubic-bezier(.2,.9,.25,1.05) .2s,visibility 0s linear .8s;text-align:center}
+.scratch-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;color:var(--maroon-text)}
+.scratch-date{font-family:Georgia,serif;font-size:27px;margin-bottom:12px;color:#4b1f2f}
+.scratch-countdown{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.scratch-unit{width:58px;padding:7px 2px;background:#fffdf7;color:#4b1f2f;border-radius:8px;box-shadow:0 3px 10px rgba(92,66,19,.14)}
+.scratch-unit .num{font-size:19px;font-weight:600;line-height:1.1}
+.scratch-unit .lbl{display:block;font-size:7px;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.scratch-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;touch-action:none;cursor:grab;border-radius:20px}
+.scratch-hint{position:absolute;z-index:4;inset:0;display:flex;align-items:center;justify-content:center;gap:8px;color:#fff4df;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;pointer-events:none;transition:opacity .45s;text-align:center;padding:0 12px}
+.scratch-box.revealed .scratch-content{opacity:1;visibility:visible;transform:scale(1)}
+.scratch-box.revealed .scratch-canvas,.scratch-box.revealed .scratch-hint{opacity:0;pointer-events:none}
+.scratch-box.celebrating{animation:scratchCardCelebrate .72s cubic-bezier(.2,.9,.25,1.15) both}
+.scratch-box.celebrating::after{content:"";position:absolute;inset:-1px;z-index:5;border-radius:20px;pointer-events:none;background:#fffaf3;opacity:0;transform:scale(.92);animation:revealFlash .72s cubic-bezier(.18,.8,.22,1) .12s forwards}
+.scratch-box.celebrating .scratch-content{position:relative;z-index:6}
+@keyframes scratchCardCelebrate{0%{transform:scale(1)}35%{transform:scale(1.035)}65%{transform:scale(.99)}100%{transform:scale(1)}}
+@keyframes revealFlash{0%{opacity:0;transform:scale(.78);border-radius:55%}45%{opacity:1;transform:scale(1.02);border-radius:18px}100%{opacity:1;transform:scale(1);border-radius:16px}}
+.scratch-confetti{position:absolute;z-index:30;inset:-30vh -20vw;pointer-events:none;overflow:visible}
+.scratch-confetti i{position:absolute;left:50%;top:39%;width:11px;height:17px;opacity:0;transform-origin:center;animation:petalBurst var(--t) cubic-bezier(.12,.7,.2,1) var(--delay) forwards}
+.scratch-confetti i.flower{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#f5c35f 0 18%,transparent 20%),conic-gradient(from 0deg,#f39ac0 0 18%,transparent 18% 30%,#f39ac0 30% 48%,transparent 48% 60%,#f39ac0 60% 78%,transparent 78% 90%,#f39ac0 90% 100%);filter:drop-shadow(0 2px 2px rgba(70,0,0,.16))}
+.scratch-confetti i.petal{width:10px;height:18px;border-radius:72% 28% 72% 28%;background:linear-gradient(135deg,#f7a6bd,#d93251);box-shadow:0 2px 4px rgba(80,0,0,.18)}
+.scratch-confetti i.leaf{width:9px;height:16px;border-radius:80% 20% 80% 20%;background:linear-gradient(135deg,#9bcf65,#3f9a55)}
+.scratch-confetti i.gold{width:7px;height:7px;border-radius:50%;background:#e6bd63}
+@keyframes petalBurst{0%{opacity:0;transform:translate3d(0,0,0) rotate(0deg) scale(.25)}8%{opacity:1}34%{opacity:1}100%{opacity:0;transform:translate3d(var(--x),var(--y),0) rotate(var(--r)) scale(var(--s))}}
+
+/* ---------- Venue ---------- */
+.venue-card{width:min(94vw,560px);margin:0 auto;padding:32px 24px;border-radius:22px;border:1px solid rgba(232,195,122,.6);background:#fff;
+  box-shadow:0 18px 46px rgba(76,13,22,.16);text-align:center}
+.venue-card .label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--maroon-text)}
+.venue-card h2{font-weight:400;font-size:clamp(24px,6vw,31px);margin:12px 0 14px;color:var(--maroon)}
+.venue-card .address{font-size:14px;line-height:1.65;color:var(--muted);margin:0 auto 18px;max-width:460px}
+.venue-map{width:100%;height:240px;border-radius:14px;overflow:hidden;border:1px solid rgba(232,195,122,.5);margin:15px 0 20px}
+.venue-map iframe{width:100%;height:100%;border:0}
+.directions{display:inline-block;border-radius:999px;background:linear-gradient(135deg,#c9973f,#8a6323);color:#fff4df;text-decoration:none;padding:12px 26px;letter-spacing:2px;text-transform:uppercase;font-size:10px;box-shadow:0 10px 26px rgba(140,95,30,.35)}
+.venue-note{font-size:11px;color:var(--muted);margin-top:16px;line-height:1.5;text-align:center}
+
+/* ---------- Finale (full-bleed closing banner) ---------- */
+.section.finale-section{margin:70px 0 0;padding:0;max-width:none}
+.finale{position:relative;overflow:hidden;text-align:center;padding:100px 24px 110px;
+  background:radial-gradient(circle at 50% 20%,rgba(255,221,156,.16),transparent 45%),linear-gradient(160deg,#4c0d16,#7a1420 55%,#5a1019)}
+.finale .fk{position:relative;z-index:2;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--gold)}
+.finale .fname{position:relative;z-index:2;font-family:'ScriptSerif',Georgia,serif;font-style:italic;font-weight:400;
+  font-size:clamp(34px,6.2vw,58px);color:#f3d9a4;margin:16px 0 8px;line-height:1.05;text-shadow:0 2px 18px rgba(0,0,0,.25)}
+.finale .fheart{position:relative;z-index:2;font-size:24px;margin:6px 0 16px}
+.finale .fdate{position:relative;z-index:2;font-size:16px;letter-spacing:1.5px;color:#f1e2c8}
+.finale .ftag{position:relative;z-index:2;font-family:'ScriptSerif',Georgia,serif;font-style:italic;font-size:17px;color:var(--gold);margin-top:12px;letter-spacing:.5px}
+</style>
+</head>
+<body class="locked">
+<div id="intro">
+  <div class="intro-card">
+    <div class="monogram">S<span style="font-size:.7em">V</span></div>
+    <div class="eyebrow">Wedding Invitation</div>
+    <h1>Shravani<br><span style="font-size:.52em;letter-spacing:4px">WEDS</span><br>Vamshi</h1>
+    <p>With love, laughter &amp; blessings, we invite you to celebrate our wedding festivities.</p>
+    <button class="enter" id="enter">Open Invitation</button>
+  </div>
+</div>
+
+<div id="petals"></div>
+
+<div id="flow">
+  <div id="decor"></div>
+
+  <section class="section">
+    <div class="card"><img loading="lazy" decoding="async" src="assets/cover.webp" alt="Dr. Shravani and Vamshi wedding invitation cover"></div>
+  </section>
+
+  <section class="section">
+    <div class="heading-block">
+      <div class="kicker">Save the Date</div>
+    </div>
+    <div class="savedate-wrap">
+      <div class="scratch-box" id="scratchWrap">
+        <div class="scratch-content" id="scratchContent">
+          <div class="scratch-label">The Muhurtham</div>
+          <div class="scratch-date">14th October 2026</div>
+          <div class="scratch-countdown">
+            <div class="scratch-unit"><div class="num" id="cd-days">00</div><span class="lbl">Days</span></div>
+            <div class="scratch-unit"><div class="num" id="cd-hours">00</div><span class="lbl">Hours</span></div>
+            <div class="scratch-unit"><div class="num" id="cd-mins">00</div><span class="lbl">Minutes</span></div>
+            <div class="scratch-unit"><div class="num" id="cd-secs">00</div><span class="lbl">Seconds</span></div>
+          </div>
+        </div>
+        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+        <div class="scratch-hint" id="scratchHint">✦ Scratch to Reveal ✦</div>
+      </div>
+    </div>
+    <div class="heading-block" style="margin-top:46px">
+      <div class="kicker" style="letter-spacing:3px">Celebrate With Us</div>
+      <h2>Events Schedule</h2>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card"><img loading="lazy" decoding="async" src="assets/haldi.webp" alt="Haldi invitation"></div>
+  </section>
+
+  <section class="section">
+    <div class="card"><img loading="lazy" decoding="async" src="assets/mehendi.webp" alt="Mehendi invitation"></div>
+  </section>
+
+  <section class="section">
+    <div class="card"><img loading="lazy" decoding="async" src="assets/sangeeth.webp" alt="Sangeeth invitation"></div>
+  </section>
+
+  <section class="section">
+    <div class="card"><img loading="lazy" decoding="async" src="assets/wedding.webp" alt="Wedding ceremony invitation"></div>
+  </section>
+
+  <section class="section">
+    <div class="card"><img loading="lazy" decoding="async" src="assets/dress-code.webp" alt="Dress code invitation"></div>
+  </section>
+
+  <section class="section">
+    <div class="venue-card">
+      <div class="label">Where We Celebrate</div>
+      <h2>The Tuskers Institute</h2>
+      <div class="address">Tuskers Institute, West Marredpally, Secunderabad, Telangana 500026</div>
+      <div class="venue-map"><iframe src="https://www.google.com/maps?q=17.4575739,78.511041&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      <a class="directions" href="https://www.google.com/maps/dir/?api=1&destination=17.4575739%2C78.511041" target="_blank" rel="noopener">Get Directions</a>
+      <div class="venue-note">Hosting the Mehendi &amp; Sangeet celebrations as well as the Wedding Ceremony</div>
+    </div>
+  </section>
+
+  <section class="section finale-section">
+    <div class="finale">
+      <div class="fk">With Love</div>
+      <div class="fname">Shravani &amp; Vamshi</div>
+      <div class="fheart">❤️</div>
+      <div class="fdate">13th &ndash; 14th October 2026</div>
+      <div class="ftag">#ShraVamkiShaadi</div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ---------- Intro gate ----------
+const intro=document.getElementById('intro');
+document.getElementById('enter').onclick=()=>{
+  intro.classList.add('hidden');
+  document.body.classList.remove('locked');
+};
+
+// ---------- Live Muhurtham countdown ----------
+(function(){
+  const target=new Date('2026-10-14T08:54:00+05:30').getTime();
+  const els={d:document.getElementById('cd-days'),h:document.getElementById('cd-hours'),m:document.getElementById('cd-mins'),s:document.getElementById('cd-secs')};
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){const diff=Math.max(0,target-Date.now());els.d.textContent=pad(Math.floor(diff/86400000));els.h.textContent=pad(Math.floor(diff/3600000)%24);els.m.textContent=pad(Math.floor(diff/60000)%60);els.s.textContent=pad(Math.floor(diff/1000)%60)}
+  tick();setInterval(tick,1000);
+})();
+
+// ---------- Gold scratch-to-reveal ----------
+(function(){
+  const box=document.getElementById('scratchWrap'), canvas=document.getElementById('scratchCanvas'), hint=document.getElementById('scratchHint');
+  if(!box||!canvas)return;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  let drawing=false,revealed=false,lastX=null,lastY=null,strokeCount=0;
+
+  function paint(){
+    const r=box.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2),w=r.width,h=r.height;
+    canvas.width=Math.max(1,Math.floor(w*d)); canvas.height=Math.max(1,Math.floor(h*d));
+    canvas.style.width=w+'px'; canvas.style.height=h+'px';
+    ctx.setTransform(d,0,0,d,0,0);
+    ctx.globalCompositeOperation='source-over';
+    const g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#c99a3e');g.addColorStop(.18,'#f8df9b');g.addColorStop(.38,'#b9852c');g.addColorStop(.52,'#ffe9a9');g.addColorStop(.72,'#c28f35');g.addColorStop(1,'#f3d27b');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    for(let x=-h;x<w;x+=7){ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+h,h);ctx.stroke()}
+    ctx.strokeStyle='rgba(112,69,14,.22)';ctx.lineWidth=1;
+    for(let x=-h+3;x<w;x+=11){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+h,h);ctx.stroke()}
+    ctx.fillStyle='rgba(255,245,205,.14)';ctx.fillRect(0,0,w,h);
+    strokeCount=0;
+  }
+  function pos(e){const r=canvas.getBoundingClientRect(),t=e.touches&&e.touches[0]?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top}}
+  function markScratch(x,y){
+    ctx.save();ctx.globalCompositeOperation='source-over';
+    const rg=ctx.createRadialGradient(x,y,2,x,y,28);
+    rg.addColorStop(0,'rgba(255,248,218,.9)');rg.addColorStop(.55,'rgba(226,187,92,.55)');rg.addColorStop(1,'rgba(151,99,25,.18)');
+    ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,27,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(255,248,218,.38)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,23,0,Math.PI*2);ctx.stroke();ctx.restore();
+    strokeCount++;
+  }
+  function scratchStroke(x,y){
+    if(lastX==null){markScratch(x,y);lastX=x;lastY=y;return}
+    const dx=x-lastX,dy=y-lastY,dist=Math.hypot(dx,dy),steps=Math.max(1,Math.ceil(dist/10));
+    for(let k=1;k<=steps;k++){const t=k/steps;markScratch(lastX+dx*t,lastY+dy*t)}
+    lastX=x;lastY=y;
+  }
+  function checkComplete(){
+    const r=box.getBoundingClientRect();
+    const target=Math.max(70,Math.round((r.width*r.height)/190));
+    if(strokeCount>=target) completeReveal();
+  }
+  function start(e){if(revealed)return;drawing=true;hint.style.opacity='0';const p=pos(e);scratchStroke(p.x,p.y);if(e.cancelable)e.preventDefault()}
+  function move(e){if(!drawing||revealed)return;const p=pos(e);scratchStroke(p.x,p.y);checkComplete();if(e.cancelable)e.preventDefault()}
+  function stop(){drawing=false;lastX=lastY=null}
+  function burstPetals(){
+    const layer=document.createElement('div');layer.className='scratch-confetti';
+    const types=['petal','petal','flower','leaf','petal','gold'];
+    for(let k=0;k<70;k++){
+      const el=document.createElement('i');el.className=types[k%types.length];
+      el.style.left=(49+Math.random()*4)+'%';el.style.top=(43+Math.random()*7)+'%';
+      const angle=(-Math.PI/2)+(Math.random()-.5)*1.65;
+      const distance=100+Math.random()*380;
+      el.style.setProperty('--x',Math.cos(angle)*distance+(Math.random()*90-45)+'px');
+      el.style.setProperty('--y',Math.sin(angle)*distance+90+Math.random()*300+'px');
+      el.style.setProperty('--r',(Math.random()*1100-550)+'deg');
+      el.style.setProperty('--s',(0.75+Math.random()*1.2).toFixed(2));
+      el.style.setProperty('--t',(1.45+Math.random()*1.35).toFixed(2)+'s');
+      el.style.setProperty('--delay',(Math.random()*.28).toFixed(2)+'s');
+      layer.appendChild(el);
+    }
+    box.appendChild(layer);
+    setTimeout(()=>layer.remove(),3400);
+  }
+  function completeReveal(){
+    if(revealed)return; revealed=true; stop();
+    box.classList.add('revealed','celebrating');
+    hint.style.opacity='0';
+    setTimeout(burstPetals,120);
+  }
+  canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);window.addEventListener('mouseup',stop);
+  canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',stop,{passive:false});
+  canvas.addEventListener('dblclick',completeReveal);
+  window.addEventListener('resize',()=>{if(!revealed)paint()});
+  paint();
+})();
+
+// ---------- Ambient falling petals (fixed, whole-viewport) ----------
+(function(){
+  const p=document.getElementById('petals');
+  for(let n=0;n<13;n++){
+    const x=document.createElement('i'); x.className='fall-petal';
+    x.style.left=(Math.random()*100)+'%';
+    x.style.setProperty('--drift',(Math.random()*160-80)+'px');
+    x.style.animationDuration=(9+Math.random()*10)+'s';
+    x.style.animationDelay=(-Math.random()*14)+'s';
+    x.style.transform='rotate('+Math.random()*360+'deg)';
+    p.appendChild(x);
+  }
+})();
+
+// ---------- Scattered decorative flowers / leaves / butterflies across the page ----------
+(function(){
+  const decor=document.getElementById('decor');
+  const flow=document.getElementById('flow');
+  const emojis=['🌼','🌸','🍃','🦋'];
+  const N=48;
+  for(let i=0;i<N;i++){
+    const useEmoji = i%3!==0;
+    const el=document.createElement(useEmoji?'span':'i');
+    el.className='d '+(useEmoji?'emoji':'petal');
+    if(useEmoji) el.textContent=emojis[i%emojis.length];
+    const band=Math.random();
+    let leftPct;
+    if(band<0.42) leftPct=1+Math.random()*15;
+    else if(band<0.84) leftPct=84+Math.random()*15;
+    else leftPct=28+Math.random()*44;
+    const topPct=Math.random()*100;
+    el.style.left=leftPct+'%';
+    el.style.top=topPct+'%';
+    el.style.animationDelay=(-Math.random()*6)+'s';
+    el.style.animationDuration=(5+Math.random()*4)+'s';
+    if(!useEmoji){
+      el.style.transform='rotate('+Math.random()*360+'deg)';
+    } else {
+      el.style.fontSize=(16+Math.random()*10)+'px';
+    }
+    decor.appendChild(el);
+  }
+  function sizeDecor(){ decor.style.height=flow.scrollHeight+'px'; }
+  window.addEventListener('load',sizeDecor);
+  window.addEventListener('resize',sizeDecor);
+  setTimeout(sizeDecor,400);
+})();
+</script>
+</body>
+</html>
